@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react';
-import { db } from '../data/db';
 import { CartItem, Guitar } from '../types';
 
 export const useCart = () => {
@@ -16,21 +15,10 @@ export const useCart = () => {
 	};
 
 	/* ----- state ----- */
-	const [data] = useState(db);
 	const [cart, setCart] = useState(initialCart);
 
 	useEffect(() => {
 		localStorage.setItem('cart', JSON.stringify(cart));
-	}, [cart]);
-
-	const isCartEmpty = useMemo(() => {
-		return cart.length === 0;
-	}, [cart]);
-
-	const cartTotal = useMemo(() => {
-		return cart.reduce((carry, item) => {
-			return carry + item.quantity * item.price;
-		}, 0);
 	}, [cart]);
 
 	/**
@@ -115,14 +103,11 @@ export const useCart = () => {
 	};
 
 	return {
-		data,
 		cart,
 		addToCart,
 		removeFromCart,
 		decreaseQuantity,
 		increaseQuantity,
 		clearCart,
-		isCartEmpty,
-		cartTotal,
 	};
 };
