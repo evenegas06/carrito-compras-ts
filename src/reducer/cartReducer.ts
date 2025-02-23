@@ -61,6 +61,7 @@ export const cartReducer = (
 		case 'REMOVE_FROM_CART':
 			return {
 				...state,
+				cart: state.cart.filter((item) => item.id !== action.payload.id),
 			};
 
 		case 'DECREASE_QUANTITY':
@@ -69,8 +70,19 @@ export const cartReducer = (
 			};
 
 		case 'INCREASE_QUANTITY':
+			const cart_increase = state.cart.map((item) => {
+				if (item.id === action.payload.id && item.quantity < MAX_QUANTITY) {
+					return {
+						...item,
+						quantity: item.quantity + 1,
+					};
+				}
+				return item;
+			});
+
 			return {
 				...state,
+				cart: cart_increase,
 			};
 
 		case 'CLEAR_CART':
