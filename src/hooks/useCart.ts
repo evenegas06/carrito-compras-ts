@@ -2,9 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { CartItem, Guitar } from '../types';
 
 export const useCart = () => {
-	const MAX_QUANTITY = 5;
-	const MIN_QUANTITY = 1;
-
 	/**
 	 *
 	 * @returns array
@@ -22,80 +19,6 @@ export const useCart = () => {
 	}, [cart]);
 
 	/**
-	 * Add item to cart state.
-	 *
-	 * @param item
-	 */
-	const addToCart = (item: Guitar) => {
-		const item_exists = cart.findIndex((cart_item) => {
-			return cart_item.id === item.id;
-		});
-
-		if (item_exists >= 0) {
-			if (cart[item_exists].quantity >= MAX_QUANTITY) return;
-
-			const update_cart = [...cart]; // copy of state
-
-			update_cart[item_exists].quantity++;
-
-			setCart(update_cart);
-		} else {
-			const new_item: CartItem = { ...item, quantity: 1 };
-
-			setCart([...cart, new_item]);
-		}
-	};
-
-	/**
-	 * Remove item from cart state.
-	 *
-	 * @param id
-	 */
-	const removeFromCart = (id: Guitar['id']) => {
-		setCart(cart.filter((guitar) => guitar.id !== id));
-	};
-
-	/**
-	 * Increase item quantity.
-	 *
-	 * @param id
-	 */
-	const increaseQuantity = (id: Guitar['id']) => {
-		const update_cart = cart.map((item) => {
-			if (item.id === id && item.quantity < MAX_QUANTITY) {
-				return {
-					...item,
-					quantity: item.quantity + 1,
-				};
-			}
-
-			return item;
-		});
-
-		setCart(update_cart);
-	};
-
-	/**
-	 * Decrease item quantity.
-	 *
-	 * @param id
-	 */
-	const decreaseQuantity = (id: Guitar['id']) => {
-		const update_cart = cart.map((item) => {
-			if (item.id === id && item.quantity > MIN_QUANTITY) {
-				return {
-					...item,
-					quantity: item.quantity - 1,
-				};
-			}
-
-			return item;
-		});
-
-		setCart(update_cart);
-	};
-
-	/**
 	 * Set cart state to empty.
 	 */
 	const clearCart = () => {
@@ -104,10 +27,6 @@ export const useCart = () => {
 
 	return {
 		cart,
-		addToCart,
-		removeFromCart,
-		decreaseQuantity,
-		increaseQuantity,
 		clearCart,
 	};
 };
