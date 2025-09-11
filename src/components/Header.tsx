@@ -1,14 +1,13 @@
 import { useMemo } from 'react';
-import type { CartItem, Guitar } from '../types';
+import type { CartItem } from '../types';
 import { CartActions } from '../reducer/cartReducer';
 
 type HeaderProps = {
 	cart: CartItem[];
 	dispatch: React.Dispatch<CartActions>;
-	clearCart: () => void;
 };
 
-const Header = ({ cart, dispatch, clearCart }: HeaderProps) => {
+const Header = ({ cart, dispatch }: HeaderProps) => {
 	const isCartEmpty = useMemo(() => {
 		return cart.length === 0;
 	}, [cart]);
@@ -129,7 +128,7 @@ const Header = ({ cart, dispatch, clearCart }: HeaderProps) => {
 
 								<button
 									className="btn btn-dark w-100 mt-3 p-2"
-									onClick={clearCart}
+									onClick={() => dispatch({ type: 'CLEAR_CART' })}
 								>
 									Vaciar Carrito
 								</button>
